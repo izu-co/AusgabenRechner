@@ -1,0 +1,18 @@
+{
+    "freetime": {
+        "de": {
+            "text": "Freizeit"
+        },
+        "en": {
+            "text": "Freetime"
+        }
+    },
+    "food": {
+        "de": {
+            "text": "Essen"
+        },
+        "en":{
+            "text": "Food"
+        }
+    }
+}

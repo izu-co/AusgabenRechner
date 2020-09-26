@@ -1,0 +1,17 @@
+body {
+    background-color: white;
+}
+
+#headerDiv {
+    height: 1em;
+    position: relative 
+}
+
+h1 {
+    margin: 0;
+    margin-top: 5px;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 0);
+    color: black;
+}

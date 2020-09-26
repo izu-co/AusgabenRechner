@@ -1,0 +1,50 @@
+{
+    "categorySelction": {
+        "de": "Bitte wähle die Kategorie aus",
+        "en": "Please choose the category"
+    },
+    "add": {
+        "de": "Hinzufügen",
+        "en": "Add"
+    },
+    "addSpending": {
+        "de": "Einmalige Ausgabe",
+        "en": "Ontime Spending"
+    },
+    "analysis" : {
+        "de": "Auswertung",
+        "en": "Analysis"
+    },
+    "year": {
+        "de": "Jahr",
+        "en": "Year"
+    },
+    "month": {
+        "de": "Monat",
+        "en": "Month"
+    },
+    "day": {
+        "de": "Tag",
+        "en": "Day"
+    },
+    "noneOption": {
+        "de": "Bitte auswählen...",
+        "en": "Please select..."
+    },
+    "numberSelection": {
+        "de": "Wie viel Geld wurde ausgegeben?",
+        "en": "How much money was spend?"
+    },
+    "chooseCategory": {
+        "de": "Bitte wähle eine Kategorie aus",
+        "en": "Please choose a category"
+    },
+    "chooseSpend": {
+        "de": "Bitte gib eine Ausgabe größer als 0 ein",
+        "en": "Please give a spend greater than 0"
+    },
+    "whenLabel": {
+        "de": "Wann wurde die Ausgabe getätigt?",
+        "en": "When was the money spend?"
+    }
+}
