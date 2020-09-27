@@ -36,7 +36,8 @@ form.addEventListener("submit", function(event) {
     let category = document.getElementById("category").value
     let spend = document.getElementById("spend").value
     let date = document.getElementById("when").value
-
+    let title = document.getElementById("title").value
+    let description = document.getElementById("descrption").value
 
     if (category === "none") {
         dialog.showMessageBox(windowObj, {
@@ -61,6 +62,8 @@ form.addEventListener("submit", function(event) {
     }
 
     ipcRenderer.send("onceEntrie", {
+        "title": title,
+        "description": description,
         "category": category,
         "spend": spend,
         "date": dateObject

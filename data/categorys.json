@@ -11,8 +11,16 @@
         "de": {
             "text": "Essen"
         },
-        "en":{
+        "en": {
             "text": "Food"
+        }
+    },
+    "test": {
+        "de": {
+            "text": "Möbel"
+        },
+        "en": {
+            "text": ""
         }
     }
 }

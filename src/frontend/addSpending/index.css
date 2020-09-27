@@ -29,7 +29,7 @@ h1 {
 }
 
 
-input, select {
+input, select, textarea {
   width: 100%;
   padding: 12px 20px;
   margin: 8px 0;
@@ -57,6 +57,11 @@ input[type="submit"]{
 
 input[type=submit]:hover {
   background-color: #45a049;
+}
+
+textarea {
+  height: 100px;
+  resize: none;
 }
 
 div#data {

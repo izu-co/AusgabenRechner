@@ -45,6 +45,7 @@
     }
   },
   "dependencies": {
+    "chart.js": "^2.9.3",
     "electron-squirrel-startup": "^1.0.0",
     "os-locale": "^5.0.0"
   },

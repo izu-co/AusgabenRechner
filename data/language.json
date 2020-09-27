@@ -11,7 +11,7 @@
         "de": "Einmalige Ausgabe",
         "en": "Ontime Spending"
     },
-    "analysis" : {
+    "analysis": {
         "de": "Auswertung",
         "en": "Analysis"
     },
@@ -46,5 +46,21 @@
     "whenLabel": {
         "de": "Wann wurde die Ausgabe getätigt?",
         "en": "When was the money spend?"
+    },
+    "titleSelection": {
+        "de": "Bitte wähle den Titel für die Ausgabe",
+        "en": "Please choose the title for the spending"
+    },
+    "descriptionSelection": {
+        "de": "Bitte gib eine Beschreibung zu der Ausgabe an (optional)",
+        "en": "Please enter a description for the spending (optional)"
+    },
+    "spendInCurrency": {
+        "de": "Ausgaben in €",
+        "en": "Ausgaben in $"
+    },
+    "total": {
+        "de": "Gesamt",
+        "en": "Total"
     }
 }

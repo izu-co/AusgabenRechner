@@ -16,7 +16,7 @@ const createWindow = () => {
       nodeIntegration: true,
       enableRemoteModule: true
     },
-    title: ""
+    title: "Ausgabenrechner"
   });
 
   const menu = Menu.buildFromTemplate([
@@ -47,7 +47,11 @@ const createWindow = () => {
         {
           label:fileHandler.resolveLanguageCode("month", languageCode),
           click:function(_, window, __) {
-            window.loadFile(path.join(__dirname, 'frontend', 'index', 'index.html'))
+            dialog.showMessageBoxSync(window, {
+              message: "Diese Funktion exestiert noch nicht!",
+              title: "Not found",
+              type: "info"
+            })
           }
         },
         {
@@ -58,6 +62,12 @@ const createWindow = () => {
               title: "Not found",
               type: "info"
             })
+          }
+        },
+        {
+          label:fileHandler.resolveLanguageCode("total", languageCode),
+          click:function(_, window, __) {
+            window.loadFile(path.join(__dirname, 'frontend', 'index', 'index.html'))
           }
         }
       ]
@@ -85,10 +95,14 @@ app.on('activate', () => {
   }
 });
 
-app.on("quit", function() {
+process.on("exit", function() {
   fileHandler.saveCache()
 })
 
 ipcMain.on('onceEntrie', (event, arg) => {
-  console.log(arg) 
+  fileHandler.addSpending(arg);
+})
+
+ipcMain.on("getTotalData", (event) => {
+  event.returnValue = fileHandler.getTotalSpending()
 })

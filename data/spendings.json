@@ -1,0 +1,22 @@
+{
+    "2020": {
+        "09": {
+            "27": [
+                {
+                    "title": "5",
+                    "description": "",
+                    "category": "food",
+                    "spend": 5
+                },
+                {
+                    "category": "freetime",
+                    "spend": 10
+                },
+                {
+                    "category": "test",
+                    "spend": 20
+                }
+            ]
+        }
+    }
+}
