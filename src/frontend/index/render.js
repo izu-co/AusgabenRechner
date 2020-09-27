@@ -27,6 +27,7 @@ let data = [
 
 objects.forEach((a, index) => {
     if (index > max)
+        return
     data[0].push(a["value"])
     data[1].push(a["label"])
 })
@@ -52,6 +53,9 @@ var myChart = new Chart(ctx, {
     "options": {
         responsive: true,
         responsiveAnimationDuration: 1000,
+        legend: {
+            onClick: function () {}
+        },
         scales: {
             yAxes: [{
                 ticks: {
