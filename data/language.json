@@ -62,5 +62,21 @@
     "total": {
         "de": "Gesamt",
         "en": "Total"
+    },
+    "totalSpending": {
+        "de": "Gesamte Ausgaben",
+        "en": "Total Spending"
+    },
+    "lineChart": {
+        "de": "Liniendiagramm",
+        "en": "Linechart"
+    },
+    "barChart": {
+        "de": "Balkendiagramm",
+        "en": "Barchart"
+    },
+    "pieChart": {
+        "de": "Kreisdiagramm",
+        "en": "Piechart"
     }
 }

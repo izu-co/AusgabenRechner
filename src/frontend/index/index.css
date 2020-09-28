@@ -16,6 +16,80 @@ h1 {
     color: black;
 }
 
+#settings {
+    position: relative;
+    margin-top: 20px;
+}
+
+.chooseArea {
+	background-color: rgba(0, 0, 16, 0.8);
+	padding: 0.2rem 0.2rem 0.05rem 0.2rem;
+    border-radius: 1.1rem;
+    width: fit-content;
+    height: 2.1rem;
+    margin: 0.25rem;
+    margin-top: 20px;
+}
+
+.chooseOption {
+    margin-top: 20px;
+    margin-bottom: 10px;
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	margin: auto;
+	-webkit-box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 16, 0.19), 0 0.15rem 0.15rem rgba(0, 0, 16, 0.23);
+	box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 16, 0.19), 0 0.15rem 0.15rem rgba(0, 0, 16, 0.23);
+	background-color: rgb(255, 255, 255);
+	padding: 0.4rem;
+	width: 16.5rem;
+}
+
+.container {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-pack: justify;
+	-ms-flex-pack: justify;
+	justify-content: space-between;
+	padding: 0.4rem 0.8rem;
+	width: 100%;
+}
+
+.optionText p {
+	color: rgba(0, 0, 16, 0.8);
+	font-size: 1.3rem;
+	padding: 0.3rem;
+}
+
+svg {
+    fill: rgb(242, 242, 242);
+    height: 1.8rem;
+    width: 1.8rem;
+	margin: 0.1rem;
+}
+
+
+input[name="chartType"] {
+    position: absolute;
+    opacity: 0;
+}
+
+input[type="radio"] + svg {
+	-webkit-transition: all 0.2s;
+	transition: all 0.2s;
+}
+
+input[name="chartType"]:hover + svg,
+input[name="chartType"]:checked + svg,
+input[name="chartType"]:focus + svg {
+	fill: greenyellow;
+}
+
+#chart {
+    max-height: 70%;
+}
+
 #dataDiv {
     position: absolute;
     top: 10%;
