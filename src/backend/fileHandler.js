@@ -51,7 +51,7 @@ function calculateDifferenz() {
 
 function getTotalSpending() {
 
-    let answer = new Map();
+    let answer = {}
 
     let YearKeys = Object.keys(cache.spendings)
     for (let i = 0; i < YearKeys.length; i++) {
@@ -60,14 +60,89 @@ function getTotalSpending() {
             let DayKeys = Object.keys(cache.spendings[YearKeys[i]][MonthKeys[a]])
             for (let o = 0; o < DayKeys.length; o++) {
                 cache.spendings[YearKeys[i]][MonthKeys[a]][DayKeys[o]].forEach(spending => {
-                    if (answer.get(spending["category"])) {
-                        answer.set(spending["category"], answer.get(spending["category"]) + spending["spend"])
-                    } else
-                        answer.set(spending["category"], spending["spend"])
+                    if (answer[spending["category"]]) {
+                        answer[spending["category"]] += spending["spend"]
+                    } else {
+                        answer[spending["category"]] = spending["spend"]
+                    }
                 })
             }
         } 
     }
+    return answer
+}
+
+/**
+ * @param {Date} date 
+ */
+function getYearSpending(date) {
+
+    let answer = {}
+
+    let year = date.getFullYear();
+
+    if (!checkObject(year))
+        return answer
+
+    let MonthKeys = Object.keys(cache.spendings[year])
+    for (let a = 0; a < MonthKeys.length; a++) {
+        let DayKeys = Object.keys(cache.spendings[year][MonthKeys[a]])
+        for (let o = 0; o < DayKeys.length; o++) {
+            cache.spendings[year][MonthKeys[a]][DayKeys[o]].forEach(spending => {
+                if (answer[spending["category"]]) {
+                    answer[spending["category"]] =+ spending["spend"]
+                } else
+                    answer[spending["category"]] = spending["spend"]
+            })
+        }
+    } 
+    return answer
+}
+
+
+/**
+ * @param {Date} date 
+ */
+function getMonthSpending(date) {
+    
+    let answer = {}
+    
+    let year = date.getFullYear()
+    let month = ("0" + (date.getMonth() + 1)).slice(-2)
+    
+    if (!checkObject(year, month))
+        return answer
+
+    let DayKeys = Object.keys(cache.spendings[year][month])
+    for (let o = 0; o < DayKeys.length; o++) {
+        cache.spendings[year][month][DayKeys[o]].forEach(spending => {
+            if (answer[spending["category"]]) {
+                answer[spending["category"]] =+ spending["spend"]
+            } else
+            answer[spending["category"]] = spending["spend"]
+        })
+    }
+    return answer
+}
+
+/**
+ * @param {Date} date 
+ */
+function getDaySpending(date) {
+    let answer = {}
+
+    let year = date.getFullYear()
+    let month = ("0" + date.getDate()).slice(-2)
+    let day = ("0" + (date.getMonth() + 1)).slice(-2)
+
+    if (!checkObject(year, month, day))
+        return answer
+    cache.spendings[year][month][day].forEach(spending => {
+        if (answer[spending["category"]]) {
+            answer[spending["category"]] =+ spending["spend"]
+        } else
+            answer[spending["category"]] = spending["spend"]
+    })
     return answer
 }
 
@@ -85,6 +160,19 @@ function saveCache() {
     fs.writeFileSync(path.join(__dirname, "../../", "data", "spendings.json"), JSON.stringify(cache.spendings, null, 4));
 }
 
+function checkObject(...args) {
+    let ob = cache.spendings;
+    let ok = true;
+    for (arg of args) {
+        if (ob.hasOwnProperty(arg)) {
+            ob = ob[arg]
+        } else {
+            ok = false;
+            break;
+        }
+    }
+    return ok;
+}
 
 exports.resolveCategory = resolveCategory
 exports.readCache = readCache
@@ -93,3 +181,6 @@ exports.getCategorys = getCategorys
 exports.resolveLanguageCode = resolveLanguageCode
 exports.addSpending = addSpending;
 exports.getTotalSpending = getTotalSpending
+exports.getYearSpending = getYearSpending
+exports.getMonthSpending = getMonthSpending
+exports.getDaySpending = getDaySpending

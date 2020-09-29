@@ -18,5 +18,25 @@
                 }
             ]
         }
+    },
+    "2021": {
+        "09": {
+            "27": [
+                {
+                    "title": "5",
+                    "description": "",
+                    "category": "food",
+                    "spend": 100
+                },
+                {
+                    "category": "freetime",
+                    "spend": 5
+                },
+                {
+                    "category": "test",
+                    "spend": 3
+                }
+            ]
+        }
     }
 }

@@ -2,15 +2,17 @@ const Chart = require("chart.js")
 const path = require("path")
 const { ipcRenderer, remote } = require('electron')
 const fileHandler = remote.require(path.join(remote.app.getAppPath(), "src", "backend", "fileHandler.js"));
-const totalSpending = ipcRenderer.sendSync("getTotalData")
 const chartDataLabels = require("chartjs-plugin-datalabels")
+
+const datePicker = document.getElementById("datePicker") 
+datePicker.valueAsDate = new Date();
 
 Chart.plugins.register(chartDataLabels)
 
 const max = 10
+let data = resolveData()
 
 document.getElementById("title").innerHTML = fileHandler.resolveLanguageCode("totalSpending", navigator.language)
-
 
 let labelSelection = document.getElementsByTagName("label")
 for (let i = 0; i < labelSelection.length; i++) {
@@ -23,47 +25,9 @@ for (let i = 0; i < labelSelection.length; i++) {
 
 var ctx = document.getElementById('chart').getContext('2d');
 
-let objects = []
-
-totalSpending.forEach((value, key) => {
-    objects.push({
-        "value": value,
-        "label": fileHandler.resolveCategory(key, navigator.language)
-    })
-})
-
-objects.sort((a, b) => a["value"] - b["value"])
-
-let data = [
-    [],
-    []
-]
-
-objects.forEach((a, index) => {
-    if (index > max)
-        return
-    data[0].push(a["value"])
-    data[1].push(a["label"])
-})
-
-console.log(data, objects, totalSpending, getRandomColor(data[0].length))
-
 var myChart = new Chart(ctx, {
     plugins: [chartDataLabels],
     type: 'line',
-    data: {
-        labels: data[1],
-        datasets: [{
-            data: data[0],
-            backgroundColor: getRandomColor(),
-            borderColor: [
-                'rgba(255, 99, 132, 0.2)'
-            ],
-            pointBackgroundColor: "black",
-            borderWidth: 1,
-            barPercentage: 1
-        }]
-    },
     options: {
         plugins: {
             datalabels: {
@@ -90,8 +54,12 @@ var myChart = new Chart(ctx, {
                 }
             }]
         }        
-    }
+    },
+    active: -1
 });
+
+
+changeActive(0)
 
 function getRandomColor() {
     let colors = ["FF2D00", "FEFF00", "67FF00", "00FFB1", "0078FF", "0078FF",
@@ -138,7 +106,6 @@ for(let i = 0; i < radios.length; i++) {
         }
 }
 
-
 function fontSize () {
     let fontSize = parseInt(window.innerWidth * 0.03)
     fontSize = fontSize>25?25:fontSize<12?12:fontSize
@@ -152,6 +119,18 @@ function getFontSize() {
     fontSize = fontSize>25?25:fontSize<12?12:fontSize
     return fontSize
 }
+
+function changeActive(newIndex) {
+    myChart.config.active = newIndex;
+    myChart.config.data = data[newIndex]
+    myChart.update()
+}
+
+datePicker.addEventListener("change", function() {
+    data = resolveData(new Date(datePicker.value))
+    changeActive(myChart.config.active)
+    myChart.update()
+})
 
 /**
  * 
@@ -171,4 +150,39 @@ function getRandom(arr, n) {
         taken[x] = --len in taken ? taken[len] : len;
     }
     return result;
+}
+
+/**
+ * @param {Date} date
+ * @returns {Array}
+ */
+function resolveData(date) {
+    if (!date)
+        date = new Date()
+    let data = []
+    let items =  [fileHandler.getTotalSpending(), fileHandler.getYearSpending(date), fileHandler.getMonthSpending(date), fileHandler.getDaySpending(date)];
+    items.forEach(spend => {
+        console.log(spend)
+        let keys = Object.keys(spend)
+        let numbers = []
+        let label= []
+        for (let i = 0; i < keys.length; i++) {
+            numbers.push(spend[keys[i]])
+            label.push(fileHandler.resolveCategory(keys[i], navigator.language))
+        }
+        data.push({
+            labels: label,
+            datasets: [{
+                data: numbers,
+                backgroundColor: getRandomColor(),
+                borderColor: [
+                    'rgba(255, 99, 132, 0.2)'
+                ],
+                pointBackgroundColor: "black",
+                borderWidth: 1,
+                barPercentage: 1
+            }]
+        })
+    })
+    return data;
 }

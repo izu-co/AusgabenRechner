@@ -102,7 +102,3 @@ process.on("exit", function() {
 ipcMain.on('onceEntrie', (event, arg) => {
   fileHandler.addSpending(arg);
 })
-
-ipcMain.on("getTotalData", (event) => {
-  event.returnValue = fileHandler.getTotalSpending()
-})
