@@ -12,7 +12,17 @@ Chart.plugins.register(chartDataLabels)
 const max = 10
 let data = resolveData()
 
-document.getElementById("title").innerHTML = fileHandler.resolveLanguageCode("totalSpending", navigator.language)
+let dateChanger = document.getElementById("dateChanger")
+
+for (let i = 0; i < data.length; i++) {
+    let option = document.createElement("option")
+    option.innerHTML = fileHandler.resolveLanguageCode(data[i]["type"], navigator.language)
+    dateChanger.appendChild(option)
+}
+
+dateChanger.addEventListener("change", () => {
+    changeActive(dateChanger.selectedIndex)
+})
 
 let labelSelection = document.getElementsByTagName("label")
 for (let i = 0; i < labelSelection.length; i++) {
@@ -68,8 +78,6 @@ function getRandomColor() {
         if (myChart.config.type === "line") 
             return "#" + colors.splice(Math.floor(Math.random() * colors.length), 1)[0]
         else {
-            console.log(colors, myChart.config.data.labels.length, getRandom(colors, 
-                myChart.config.data.labels.length))
             return getRandom(colors, 
                 myChart.config.data.labels.length).map(a => "#" + a)
         }
@@ -83,7 +91,7 @@ window.addEventListener("resize", fontSize)
 var radios = document.querySelectorAll("input[type=radio]")
 for(let i = 0; i < radios.length; i++) {
     if (radios[i].name === "chartType")
-        radios[i].onclick = function(event) {
+        radios[i].onclick = function() {
             if (radios[i].checked) {
                 myChart.config.type = radios[i].value
                 if (radios[i].value === "pie") {
@@ -161,8 +169,8 @@ function resolveData(date) {
         date = new Date()
     let data = []
     let items =  [fileHandler.getTotalSpending(), fileHandler.getYearSpending(date), fileHandler.getMonthSpending(date), fileHandler.getDaySpending(date)];
-    items.forEach(spend => {
-        console.log(spend)
+    items.forEach(item => {
+        let spend = item["data"]
         let keys = Object.keys(spend)
         let numbers = []
         let label= []
@@ -181,7 +189,8 @@ function resolveData(date) {
                 pointBackgroundColor: "black",
                 borderWidth: 1,
                 barPercentage: 1
-            }]
+            }],
+            type: item["type"]
         })
     })
     return data;

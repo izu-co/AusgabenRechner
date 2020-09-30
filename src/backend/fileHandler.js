@@ -69,7 +69,7 @@ function getTotalSpending() {
             }
         } 
     }
-    return answer
+    return {"type": "total", "data": answer}
 }
 
 /**
@@ -82,7 +82,7 @@ function getYearSpending(date) {
     let year = date.getFullYear();
 
     if (!checkObject(year))
-        return answer
+        return {"type": "year", "data": answer}
 
     let MonthKeys = Object.keys(cache.spendings[year])
     for (let a = 0; a < MonthKeys.length; a++) {
@@ -96,7 +96,7 @@ function getYearSpending(date) {
             })
         }
     } 
-    return answer
+    return {"type": "year", "data": answer}
 }
 
 
@@ -111,7 +111,7 @@ function getMonthSpending(date) {
     let month = ("0" + (date.getMonth() + 1)).slice(-2)
     
     if (!checkObject(year, month))
-        return answer
+        return {"type": "month", "data": answer}
 
     let DayKeys = Object.keys(cache.spendings[year][month])
     for (let o = 0; o < DayKeys.length; o++) {
@@ -122,7 +122,7 @@ function getMonthSpending(date) {
             answer[spending["category"]] = spending["spend"]
         })
     }
-    return answer
+    return {"type": "month", "data": answer}
 }
 
 /**
@@ -136,28 +136,30 @@ function getDaySpending(date) {
     let day = ("0" + (date.getMonth() + 1)).slice(-2)
 
     if (!checkObject(year, month, day))
-        return answer
+    return {"type": "day", "data": answer}
     cache.spendings[year][month][day].forEach(spending => {
         if (answer[spending["category"]]) {
             answer[spending["category"]] =+ spending["spend"]
         } else
             answer[spending["category"]] = spending["spend"]
     })
-    return answer
+    return {"type": "day", "data": answer}
 }
 
 function readCache() {
+    if (!fs.existsSync(path.join(__dirname, "../", "data", "spendings.json")))
+        fs.writeFileSync(path.join(__dirname, "../", "data", "spendings.json"), "{}")
     return {
-        "language": JSON.parse(fs.readFileSync(path.join(__dirname, "../../", "data", "language.json"))),
-        "categorys": JSON.parse(fs.readFileSync(path.join(__dirname, "../../", "data", "categorys.json"))),
-        "spendings": JSON.parse(fs.readFileSync(path.join(__dirname, "../../", "data", "spendings.json")))
+        "language": JSON.parse(fs.readFileSync(path.join(__dirname, "../", "data", "language.json"))),
+        "categorys": JSON.parse(fs.readFileSync(path.join(__dirname, "../", "data", "categorys.json"))),
+        "spendings": JSON.parse(fs.readFileSync(path.join(__dirname, "../", "data", "spendings.json")))
     }
 }
 
 function saveCache() {
-    fs.writeFileSync(path.join(__dirname, "../../", "data", "language.json"), JSON.stringify(cache.language, null, 4));
-    fs.writeFileSync(path.join(__dirname, "../../", "data", "categorys.json"), JSON.stringify(cache.categorys, null, 4));
-    fs.writeFileSync(path.join(__dirname, "../../", "data", "spendings.json"), JSON.stringify(cache.spendings, null, 4));
+    fs.writeFileSync(path.join(__dirname, "../", "data", "language.json"), JSON.stringify(cache.language, null, 4));
+    fs.writeFileSync(path.join(__dirname, "../", "data", "categorys.json"), JSON.stringify(cache.categorys, null, 4));
+    fs.writeFileSync(path.join(__dirname, "../", "data", "spendings.json"), JSON.stringify(cache.spendings, null, 4));
 }
 
 function checkObject(...args) {

@@ -2,58 +2,17 @@ body {
     background-color: white;
 }
 
-#headerDiv {
-    height: 1em;
-    position: relative 
-}
-
-h1 {
-    margin: 0;
-    margin-top: 10px;
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, 0);
-    color: black;
-}
-
-#settings {
-    position: relative;
-    margin-top: 20px;
-}
 
 .chooseArea {
+    position: relative;
 	background-color: rgba(0, 0, 16, 0.8);
 	padding: 0.2rem 0.2rem 0.05rem 0.2rem;
     border-radius: 1.1rem;
     width: fit-content;
     height: 2.1rem;
-    margin: 0.25rem;
     margin-top: 20px;
-}
-
-.chooseOption {
-    margin-top: 20px;
-    margin-bottom: 10px;
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex;
-	margin: auto;
-	-webkit-box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 16, 0.19), 0 0.15rem 0.15rem rgba(0, 0, 16, 0.23);
-	box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 16, 0.19), 0 0.15rem 0.15rem rgba(0, 0, 16, 0.23);
-	background-color: rgb(255, 255, 255);
-	padding: 0.4rem;
-	width: 16.5rem;
-}
-
-.container {
-	display: -webkit-box;
-	display: -ms-flexbox;
-	display: flex;
-	-webkit-box-pack: justify;
-	-ms-flex-pack: justify;
-	justify-content: space-between;
-	padding: 0.4rem 0.8rem;
-	width: 100%;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .optionText p {
@@ -92,7 +51,6 @@ input[name="chartType"]:focus + svg {
 
 #dataDiv {
     position: absolute;
-    top: 10%;
     right: 10%;
     width: 80%;
 }
@@ -105,7 +63,7 @@ input[name="chartType"]:focus + svg {
 input[type="date"] {
     position: relative;
     border: none;
-    margin-top: 50px;
+    margin-top: 30px;
     margin-bottom: 10px;
 	display: -webkit-box;
 	display: -ms-flexbox;
@@ -114,7 +72,25 @@ input[type="date"] {
 	box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 16, 0.19), 0 0.15rem 0.15rem rgba(0, 0, 16, 0.23);
 	background-color: rgb(255, 255, 255);
 	padding: 0.4rem;
-    width: 16.5rem;
+    width: fit-content;
     left: 50%;
     transform: translateX(-50%);
+}
+
+select {
+    margin-top: 20px;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    border: none;
+    -webkit-box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 16, 0.19), 0 0.15rem 0.15rem rgba(0, 0, 16, 0.23);
+	box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 16, 0.19), 0 0.15rem 0.15rem rgba(0, 0, 16, 0.23);
+    background-color: rgb(255, 255, 255);
+    padding: 0.4rem;
+    width: fit-content;
+}
+
+option {
+    border-radius: 1px;
+    border-color: black;
 }

@@ -16,7 +16,8 @@ const createWindow = () => {
       nodeIntegration: true,
       enableRemoteModule: true
     },
-    title: "Ausgabenrechner"
+    title: "Ausgabenrechner",
+    icon: path.join(__dirname, "ico.ico")
   });
 
   const menu = Menu.buildFromTemplate([
@@ -33,44 +34,9 @@ const createWindow = () => {
     },
     {
       label: fileHandler.resolveLanguageCode("analysis", languageCode),
-      submenu: [
-        {
-          label:fileHandler.resolveLanguageCode("year", languageCode),
-          click: function(_, window, __) {
-            dialog.showMessageBoxSync(window, {
-              message: "Diese Funktion exestiert noch nicht!",
-              title: "Not found",
-              type: "info"
-            })
-          }
-        },
-        {
-          label:fileHandler.resolveLanguageCode("month", languageCode),
-          click:function(_, window, __) {
-            dialog.showMessageBoxSync(window, {
-              message: "Diese Funktion exestiert noch nicht!",
-              title: "Not found",
-              type: "info"
-            })
-          }
-        },
-        {
-          label:fileHandler.resolveLanguageCode("day", languageCode),
-          click:function(_, window, __) {
-            dialog.showMessageBoxSync(window, {
-              message: "Diese Funktion exestiert noch nicht!",
-              title: "Not found",
-              type: "info"
-            })
-          }
-        },
-        {
-          label:fileHandler.resolveLanguageCode("total", languageCode),
-          click:function(_, window, __) {
-            window.loadFile(path.join(__dirname, 'frontend', 'index', 'index.html'))
-          }
-        }
-      ]
+      click: function(_, window, __) {
+        mainWindow.loadFile(path.join(__dirname, 'frontend', 'index', 'index.html'));
+      }
     }
   ])
 
