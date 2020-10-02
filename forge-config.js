@@ -2,7 +2,9 @@ const path = require("path")
 
 module.exports= {
     "packagerConfig": {
-      "icon": path.join(__dirname, "src", "ico.ico")
+      "icon": path.join(__dirname, "src", "ico.ico"),
+      "overwrite": true,
+      "ignore": "spendings.json"
     },
     "makers": [
       {

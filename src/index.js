@@ -37,11 +37,27 @@ const createWindow = () => {
       click: function(_, window, __) {
         mainWindow.loadFile(path.join(__dirname, 'frontend', 'index', 'index.html'));
       }
+    },
+    {
+      label: fileHandler.resolveLanguageCode("categorys", languageCode),
+      submenu: [
+        {
+          label: fileHandler.resolveLanguageCode("manage", languageCode),
+          click: function(_, window, __) {
+
+          }
+        },
+        {
+          label: fileHandler.resolveLanguageCode("add", languageCode),
+          click: function(_, window, __) {
+            window.loadFile(path.join(__dirname, 'frontend', 'categorys', 'add', 'index.html'))
+          }
+        }
+      ]
     }
   ])
 
   mainWindow.setMenu(menu)
-
   mainWindow.loadFile(path.join(__dirname, 'frontend', 'index', 'index.html'));
 
   mainWindow.webContents.openDevTools();

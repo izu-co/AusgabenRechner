@@ -1,26 +1,14 @@
 {
     "freetime": {
-        "de": {
-            "text": "Freizeit"
-        },
-        "en": {
-            "text": "Freetime"
-        }
+        "de": "Freizeit",
+        "en": "Freetime"
     },
     "food": {
-        "de": {
-            "text": "Essen"
-        },
-        "en": {
-            "text": "Food"
-        }
+        "de": "Essen",
+        "en": "Food"
     },
     "test": {
-        "de": {
-            "text": "Möbel"
-        },
-        "en": {
-            "text": ""
-        }
+        "de": "Möbel",
+        "en": ""
     }
 }

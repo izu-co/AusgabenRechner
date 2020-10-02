@@ -78,5 +78,37 @@
     "pieChart": {
         "de": "Kreisdiagramm",
         "en": "Piechart"
+    },
+    "categorys": {
+        "de": "Kategorien",
+        "en": "Categorys"
+    },
+    "manage": {
+        "de": "Verwalten",
+        "en": "Manage"
+    },
+    "addCategory": {
+        "de": "Kategorie hinzufügen",
+        "en": "Add category"
+    },
+    "titleCategory": {
+        "de": "Bitte wähle den Titel für die Kategorie",
+        "en": "Please choose the title for the category"
+    },
+    "selectNames": {
+        "de": "Bitte gib die Übersetzungen der Kategorie ein",
+        "en": "Please enter the translations for the category"
+    },
+    "min1TranslationRequired": {
+        "de": "Bitte gib mindestens eine Übersetung ein",
+        "en": "Please enter at least one translation"
+    },
+    "error": {
+        "de": "Fehler",
+        "en": "Error"
+    },
+    "englishOrYourLanguage": {
+        "de": "Du musst entweder deine Sprache oder Englisch angeben",
+        "en": "You have to give eigther english or your language"
     }
 }

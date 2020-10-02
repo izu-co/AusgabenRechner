@@ -1,6 +1,6 @@
 const fs = require("fs")
 const path = require("path")
-
+const languageList = require("language-list")()
 const cache = readCache()
 
 function resolveLanguageCode (className, languageCode) {
@@ -8,7 +8,7 @@ function resolveLanguageCode (className, languageCode) {
 }
     
 function resolveCategory (category, languageCode) {
-    return cache["categorys"][category]?cache["categorys"][category][languageCode]["text"]?cache["categorys"][category][languageCode]["text"]:cache["categorys"][category]["en"]["text"]:null
+    return cache["categorys"][category]?cache["categorys"][category][languageCode]?cache["categorys"][category][languageCode]:cache["categorys"][category][languageCode]["en"]:null
 }
 
 function getCategorys (languageCode) {
@@ -18,7 +18,7 @@ function getCategorys (languageCode) {
         const categoryObject = cache.categorys[categorys[a]];
         ret.push({
             "value": categorys[a],
-            "text": categoryObject[languageCode]?categoryObject[languageCode]["text"]:categoryObject["en"]["text"]
+            "text": categoryObject[languageCode]?categoryObject[languageCode]:categoryObject["en"]?categoryObject["en"]:null
         })
     }
     return ret;            
@@ -146,6 +146,18 @@ function getDaySpending(date) {
     return {"type": "day", "data": answer}
 }
 
+/**
+ * @param {string} title 
+ * @param {Array} translations 
+ */
+function addCategory(title, translations) {
+    let data = {}
+    translations.forEach(translation => {
+        data[languageList.getLanguageCode(translation[0])] = translation[1]
+    })
+    cache.categorys[title] = data;
+}
+
 function readCache() {
     if (!fs.existsSync(path.join(__dirname, "../", "data", "spendings.json")))
         fs.writeFileSync(path.join(__dirname, "../", "data", "spendings.json"), "{}")
@@ -185,4 +197,5 @@ exports.addSpending = addSpending;
 exports.getTotalSpending = getTotalSpending
 exports.getYearSpending = getYearSpending
 exports.getMonthSpending = getMonthSpending
-exports.getDaySpending = getDaySpending
+exports.getDaySpending = getDaySpending,
+exports.addCategory = addCategory

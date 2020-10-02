@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="index.css">
+    <script defer src="render.js"></script>
+</head>
+<body>
+    <div class="head">
+        <div id="headerDiv">
+          <h1></h1>
+        </div>
+        <div id="data">
+          <form id="form">
+            <div class="block">
+              <label class="titleCategory" for="title"></label>
+              <input type="text" maxlength="60" id="title" required>
+            </div>
+            <div class="block">
+              <label for="table" class="selectNames"></label>
+              <table id="table">
+                <tr>
+                  <th>Language</th>
+                  <th>Name</th>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <select id="languageSelect">
+                            <option value="none" id="noneOption" disabled selected></option>
+                        </select>
+                    </td>
+                </tr>
+                </table>
+            </div>
+            <input type="submit">
+          </form>
+        </div>
+      </div>
+</body>
+</html>

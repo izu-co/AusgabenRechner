@@ -172,14 +172,24 @@ function resolveData(date) {
     items.forEach(item => {
         let spend = item["data"]
         let keys = Object.keys(spend)
-        let numbers = []
-        let label= []
+        let sort = []
         for (let i = 0; i < keys.length; i++) {
-            numbers.push(spend[keys[i]])
-            label.push(fileHandler.resolveCategory(keys[i], navigator.language))
+            sort.push({
+                "label": fileHandler.resolveCategory(keys[i], navigator.language),
+                "value": spend[keys[i]]
+            })
         }
+        
+        sort.sort((a,b) => a.value - b.value)
+        let labels = []
+        let numbers = []
+        sort.forEach(item => {
+            labels.push(item.label)
+            numbers.push(item.value)
+        })
+
         data.push({
-            labels: label,
+            labels: labels,
             datasets: [{
                 data: numbers,
                 backgroundColor: getRandomColor(),
