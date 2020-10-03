@@ -1,40 +1,35 @@
 {
-    "2020": {
-        "09": {
-            "27": [
-                {
-                    "title": "5",
-                    "description": "",
-                    "category": "food",
-                    "spend": 5
-                },
-                {
-                    "category": "freetime",
-                    "spend": 10
-                },
-                {
-                    "category": "test",
-                    "spend": 20
-                }
-            ]
+    "2018": {
+        "02": {
+            "16": []
         }
     },
-    "2021": {
-        "09": {
-            "27": [
+    "2020": {
+        "10": {
+            "03": [
                 {
-                    "title": "5",
+                    "title": "Auto",
                     "description": "",
-                    "category": "food",
-                    "spend": 100
+                    "category": "7820b997-7d40-46eb-8c50-263abb05a452",
+                    "spend": 0
                 },
                 {
-                    "category": "freetime",
-                    "spend": 5
+                    "title": "Auto",
+                    "description": "",
+                    "category": "7820b997-7da40-46eb-8c50-263abb05a452",
+                    "spend": 0
                 },
                 {
-                    "category": "test",
-                    "spend": 3
+                    "title": "Auto",
+                    "description": "",
+                    "category": "7820b997-7ad40-46eb-8c50-263abb05a452",
+                    "spend": 0
+                },
+                {
+                    "title": "Auto",
+                    "description": "",
+                    "category": "7820b997-7d40-46eb-8c50-263abb05a452",
+                    "spend": 0
                 }
             ]
         }

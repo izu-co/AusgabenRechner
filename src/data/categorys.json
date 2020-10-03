@@ -1,14 +1,17 @@
 {
-    "freetime": {
-        "de": "Freizeit",
-        "en": "Freetime"
+    "2e8fd7ca-d25e-4fd6-a20a-3b9bb63da87b": {
+        "undefined": 5
     },
-    "food": {
-        "de": "Essen",
-        "en": "Food"
+    "1d9f7216-d669-427d-ae2b-84d8a33c4127": {
+        "undefined": 6
     },
-    "test": {
-        "de": "Möbel",
-        "en": ""
+    "88792247-eafc-473e-8080-7d565b4ba1fb": {
+        "undefined": 7
+    },
+    "3ac57dbd-bd10-4dd7-80da-8f8b23accacd": {
+        "undefined": 8
+    },
+    "8ec6d01a-feb7-44d4-9011-70038d5f02bb": {
+        "undefined": 9
     }
 }

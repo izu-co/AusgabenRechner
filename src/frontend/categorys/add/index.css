@@ -37,11 +37,6 @@ svg {
     width: 100%;
 }
 
-.romove {
-    width: 16px;
-    height: 16px;
-}
-
 #headerDiv {
   height: 5em;
   position: relative 
@@ -64,21 +59,6 @@ h1 {
   color: black;
 }
 
-
-input, textarea {
-  width: 100%;
-  padding: 12px 20px;
-  margin: 8px 0;
-  display: block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-input[type="number"]::placeholder {
-  color: gray;
-  opacity: 0.5;
-}
 
 input[type="submit"]{
   width: 100%;

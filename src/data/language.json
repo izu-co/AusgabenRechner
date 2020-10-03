@@ -107,8 +107,32 @@
         "de": "Fehler",
         "en": "Error"
     },
-    "englishOrYourLanguage": {
-        "de": "Du musst entweder deine Sprache oder Englisch angeben",
-        "en": "You have to give eigther english or your language"
+    "englishAndYourLanguage": {
+        "de": "Du musst deine Sprache und Englisch angeben",
+        "en": "You have to give your language and english"
+    },
+    "language": {
+        "de": "Sprache",
+        "en": "Language"
+    },
+    "identifier": {
+        "de": "Identifikation",
+        "en": "Identifier"
+    },
+    "translation": {
+        "de": "Übersetung",
+        "en": "Translation"
+    },
+    "approve": {
+        "de": "Ok",
+        "en": "Ok"
+    },
+    "cancel": {
+        "de": "Abbrechen",
+        "en": "Cancel"
+    },
+    "approveDelete": {
+        "de": "Wirklich löschen?",
+        "en": "Really delete?"
     }
 }

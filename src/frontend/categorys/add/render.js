@@ -67,14 +67,13 @@ document.getElementById("form").addEventListener("submit", function(ev) {
     ev.preventDefault()
     let data = [...table.rows].map(t => [...t.children].map(u => u.innerText))
     data = data.slice(1, data.length - 1)
-    if (data.length === 0) {
-        dialog.showErrorBox(fileHandler.resolveLanguageCode("error", navigator.language), fileHandler.resolveLanguageCode("min1TranslationRequired", navigator.language))
-        return;
-    }
-    if (!data.some(a => languageList.getLanguageCode(a[0]) === "en" || languageList.getLanguageCode(a[0]) === navigator.language))
-        dialog.showErrorBox(ileHandler.resolveLanguageCode("error", navigator.language), fileHandler.resolveLanguageCode("englishOrYourLanguage", navigator.language))
-    console.log(data)
+    if (data.length === 0) 
+        return dialog.showErrorBox(fileHandler.resolveLanguageCode("error", navigator.language), fileHandler.resolveLanguageCode("min1TranslationRequired", navigator.language))
+
+    if (!data.some(a => languageList.getLanguageCode(a[0]) === navigator.language) || !data.some(a => languageList.getLanguageCode(a[0]) === "en"))
+        return dialog.showErrorBox(fileHandler.resolveLanguageCode("error", navigator.language), fileHandler.resolveLanguageCode("englishAndYourLanguage", navigator.language))
     data = data.filter(a => a[1])
     console.log(data)
-    fileHandler.addCategory(document.getElementById("title").value, data)
+    fileHandler.addCategory(data)
+    location.reload()
 })

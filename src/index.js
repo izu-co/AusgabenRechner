@@ -44,7 +44,7 @@ const createWindow = () => {
         {
           label: fileHandler.resolveLanguageCode("manage", languageCode),
           click: function(_, window, __) {
-
+            window.loadFile(path.join(__dirname, 'frontend', 'categorys', 'manage', 'index.html'))
           }
         },
         {
@@ -59,7 +59,6 @@ const createWindow = () => {
 
   mainWindow.setMenu(menu)
   mainWindow.loadFile(path.join(__dirname, 'frontend', 'index', 'index.html'));
-
   mainWindow.webContents.openDevTools();
 };
 

@@ -1,5 +1,6 @@
 const fs = require("fs")
 const path = require("path")
+const { setTimeout } = require("timers")
 const languageList = require("language-list")()
 const cache = readCache()
 
@@ -8,7 +9,23 @@ function resolveLanguageCode (className, languageCode) {
 }
     
 function resolveCategory (category, languageCode) {
-    return cache["categorys"][category]?cache["categorys"][category][languageCode]?cache["categorys"][category][languageCode]:cache["categorys"][category][languageCode]["en"]:null
+    return cache["categorys"][category]?cache["categorys"][category][languageCode]?cache["categorys"][category][languageCode]:cache["categorys"][category]["en"]:null
+}
+
+function removeCategory (category) {
+    delete cache["categorys"][category]
+    let items = getAllSpendingsArray()
+    items.forEach((a,i) => {
+        a.forEach((b, n) => {
+            if (b["category"] === category) {
+                items[i].splice(n, 1)
+            }
+        })
+    })
+}
+
+function updateCategory (id, languageCode, value) {
+    cache["categorys"][id][languageCode] = value
 }
 
 function getCategorys (languageCode) {
@@ -53,22 +70,14 @@ function getTotalSpending() {
 
     let answer = {}
 
-    let YearKeys = Object.keys(cache.spendings)
-    for (let i = 0; i < YearKeys.length; i++) {
-        let MonthKeys = Object.keys(cache.spendings[YearKeys[i]])
-        for (let a = 0; a < MonthKeys.length; a++) {
-            let DayKeys = Object.keys(cache.spendings[YearKeys[i]][MonthKeys[a]])
-            for (let o = 0; o < DayKeys.length; o++) {
-                cache.spendings[YearKeys[i]][MonthKeys[a]][DayKeys[o]].forEach(spending => {
-                    if (answer[spending["category"]]) {
-                        answer[spending["category"]] += spending["spend"]
-                    } else {
-                        answer[spending["category"]] = spending["spend"]
-                    }
-                })
-            }
-        } 
-    }
+    getAllSpendings().forEach(spending => {
+        if (answer[spending["category"]]) {
+            answer[spending["category"]] += spending["spend"]
+        } else {
+            answer[spending["category"]] = spending["spend"]
+        }
+    })
+
     return {"type": "total", "data": answer}
 }
 
@@ -132,11 +141,10 @@ function getDaySpending(date) {
     let answer = {}
 
     let year = date.getFullYear()
-    let month = ("0" + date.getDate()).slice(-2)
-    let day = ("0" + (date.getMonth() + 1)).slice(-2)
-
+    let month = ("0" + (date.getMonth() + 1)).slice(-2)
+    let day = ("0" + date.getDate()).slice(-2)
     if (!checkObject(year, month, day))
-    return {"type": "day", "data": answer}
+        return {"type": "day", "data": answer}
     cache.spendings[year][month][day].forEach(spending => {
         if (answer[spending["category"]]) {
             answer[spending["category"]] =+ spending["spend"]
@@ -147,15 +155,23 @@ function getDaySpending(date) {
 }
 
 /**
- * @param {string} title 
  * @param {Array} translations 
  */
-function addCategory(title, translations) {
+function addCategory(translations) {
     let data = {}
     translations.forEach(translation => {
         data[languageList.getLanguageCode(translation[0])] = translation[1]
     })
-    cache.categorys[title] = data;
+    let uuid = uuidv4()
+    while (cache.categorys.hasOwnProperty(uuid)) uuid = uuidv4()
+    cache.categorys[uuid] = data;
+}
+
+function uuidv4() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
 }
 
 function readCache() {
@@ -166,6 +182,13 @@ function readCache() {
         "categorys": JSON.parse(fs.readFileSync(path.join(__dirname, "../", "data", "categorys.json"))),
         "spendings": JSON.parse(fs.readFileSync(path.join(__dirname, "../", "data", "spendings.json")))
     }
+}
+
+function autoSave() {
+    saveCache()
+    setTimeout(() => {
+        autoSave()
+    }, 1000 * 10);
 }
 
 function saveCache() {
@@ -188,6 +211,38 @@ function checkObject(...args) {
     return ok;
 }
 
+function getAllSpendings() {
+    let ret = []
+    let YearKeys = Object.keys(cache.spendings)
+    for (let i = 0; i < YearKeys.length; i++) {
+        let MonthKeys = Object.keys(cache.spendings[YearKeys[i]])
+        for (let a = 0; a < MonthKeys.length; a++) {
+            let DayKeys = Object.keys(cache.spendings[YearKeys[i]][MonthKeys[a]])
+            for (let o = 0; o < DayKeys.length; o++) {
+                cache.spendings[YearKeys[i]][MonthKeys[a]][DayKeys[o]].forEach(spending => {
+                    ret.push(spending)
+                })
+            }
+        } 
+    }
+    return ret;
+}
+
+function getAllSpendingsArray() {
+    let ret = []
+    let YearKeys = Object.keys(cache.spendings)
+    for (let i = 0; i < YearKeys.length; i++) {
+        let MonthKeys = Object.keys(cache.spendings[YearKeys[i]])
+        for (let a = 0; a < MonthKeys.length; a++) {
+            let DayKeys = Object.keys(cache.spendings[YearKeys[i]][MonthKeys[a]])
+            for (let o = 0; o < DayKeys.length; o++) {
+                ret.push(cache.spendings[YearKeys[i]][MonthKeys[a]][DayKeys[o]])
+            }
+        } 
+    }
+    return ret
+}
+
 exports.resolveCategory = resolveCategory
 exports.readCache = readCache
 exports.saveCache = saveCache
@@ -199,3 +254,5 @@ exports.getYearSpending = getYearSpending
 exports.getMonthSpending = getMonthSpending
 exports.getDaySpending = getDaySpending,
 exports.addCategory = addCategory
+exports.removeCategory = removeCategory
+exports.updateCategory = updateCategory
