@@ -12,18 +12,6 @@ Chart.plugins.register(chartDataLabels)
 const max = 10
 let data = resolveData()
 
-let dateChanger = document.getElementById("dateChanger")
-
-for (let i = 0; i < data.length; i++) {
-    let option = document.createElement("option")
-    option.innerHTML = fileHandler.resolveLanguageCode(data[i]["type"], navigator.language)
-    dateChanger.appendChild(option)
-}
-
-dateChanger.addEventListener("change", () => {
-    changeActive(dateChanger.selectedIndex)
-})
-
 let labelSelection = document.getElementsByTagName("label")
 for (let i = 0; i < labelSelection.length; i++) {
     const label = labelSelection[i];
@@ -168,15 +156,15 @@ function resolveData(date) {
     if (!date)
         date = new Date()
     let data = []
-    let items =  [fileHandler.getTotalSpending(), fileHandler.getYearSpending(date), fileHandler.getMonthSpending(date), fileHandler.getDaySpending(date)];
+    let items =  [fileHandler.getTotalSpending, fileHandler.getSpendingsFromDates(new Date(), new Date())];
+    console.log(fileHandler.getTotalSpending)
     items.forEach(item => {
-        let spend = item["data"]
-        let keys = Object.keys(spend)
+        let keys = Object.keys(item)
         let sort = []
         for (let i = 0; i < keys.length; i++) {
             sort.push({
                 "label": fileHandler.resolveCategory(keys[i], navigator.language),
-                "value": spend[keys[i]]
+                "value": item[keys[i]]
             })
         }
         
@@ -199,8 +187,7 @@ function resolveData(date) {
                 pointBackgroundColor: "black",
                 borderWidth: 1,
                 barPercentage: 1
-            }],
-            type: item["type"]
+            }]
         })
     })
     return data;

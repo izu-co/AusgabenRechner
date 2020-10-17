@@ -1,7 +1,36 @@
 {
     "2020": {
         "10": {
-            "02": []
+            "02": [
+                {
+                    "title": "Test",
+                    "description": "",
+                    "category": "814f5a7e-9662-4b1c-ac18-1d690e718b21",
+                    "spend": 5
+                },
+                {
+                    "title": "Test",
+                    "description": "",
+                    "category": "814f5a7e-9662-4b1c-ac18-1d690e718b21",
+                    "spend": 5
+                },
+                {
+                    "title": "Test",
+                    "description": "",
+                    "category": "814f5a7e-9662-4b1c-ac18-1d690e718b21",
+                    "spend": 5
+                }
+            ]
+        },
+        "09": {
+            "29": [
+                {
+                    "title": "Test",
+                    "description": "",
+                    "category": "814f5a7e-9662-4b1c-ac18-1d690e718b21",
+                    "spend": 5
+                }
+            ]
         }
     }
 }

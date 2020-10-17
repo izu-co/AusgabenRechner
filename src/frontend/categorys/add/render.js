@@ -70,9 +70,9 @@ document.getElementById("form").addEventListener("submit", function(ev) {
     if (data.length === 0) 
         return dialog.showErrorBox(fileHandler.resolveLanguageCode("error", navigator.language), fileHandler.resolveLanguageCode("min1TranslationRequired", navigator.language))
 
-    if (!data.some(a => languageList.getLanguageCode(a[0]) === navigator.language) || !data.some(a => languageList.getLanguageCode(a[0]) === "en"))
-        return dialog.showErrorBox(fileHandler.resolveLanguageCode("error", navigator.language), fileHandler.resolveLanguageCode("englishAndYourLanguage", navigator.language))
     data = data.filter(a => a[1])
+    if (data.some(a => languageList.getLanguageCode(a[0]) === navigator.language) && data.some(a => languageList.getLanguageCode(a[0]) === "en"))
+        return dialog.showErrorBox(fileHandler.resolveLanguageCode("error", navigator.language), fileHandler.resolveLanguageCode("englishAndYourLanguage", navigator.language))
     console.log(data)
     fileHandler.addCategory(data)
     location.reload()

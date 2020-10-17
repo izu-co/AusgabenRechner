@@ -88,3 +88,7 @@ typings/
 
 # Electron-Forge
 out/
+
+# User Data
+src/data/spendings.json
+src/data/categorys.json

@@ -60,98 +60,56 @@ function addSpending(data) {
     })
     object[data["date"]["year"]][data["date"]["month"]][data["date"]["day"]] = day;
     console.log(cache.spendings)
-}
-
-function calculateDifferenz() {
-
-}
-
-function getTotalSpending() {
-
-    let answer = {}
-
-    getAllSpendings().forEach(spending => {
-        if (answer[spending["category"]]) {
-            answer[spending["category"]] += spending["spend"]
-        } else {
-            answer[spending["category"]] = spending["spend"]
-        }
-    })
-
-    return {"type": "total", "data": answer}
+    saveCache()
 }
 
 /**
  * @param {Date} date 
  */
-function getYearSpending(date) {
-
-    let answer = {}
-
-    let year = date.getFullYear();
-
-    if (!checkObject(year))
-        return {"type": "year", "data": answer}
-
-    let MonthKeys = Object.keys(cache.spendings[year])
-    for (let a = 0; a < MonthKeys.length; a++) {
-        let DayKeys = Object.keys(cache.spendings[year][MonthKeys[a]])
-        for (let o = 0; o < DayKeys.length; o++) {
-            cache.spendings[year][MonthKeys[a]][DayKeys[o]].forEach(spending => {
-                if (answer[spending["category"]]) {
-                    answer[spending["category"]] =+ spending["spend"]
-                } else
-                    answer[spending["category"]] = spending["spend"]
-            })
-        }
-    } 
-    return {"type": "year", "data": answer}
-}
-
-
-/**
- * @param {Date} date 
- */
-function getMonthSpending(date) {
-    
-    let answer = {}
-    
-    let year = date.getFullYear()
-    let month = ("0" + (date.getMonth() + 1)).slice(-2)
-    
-    if (!checkObject(year, month))
-        return {"type": "month", "data": answer}
-
-    let DayKeys = Object.keys(cache.spendings[year][month])
-    for (let o = 0; o < DayKeys.length; o++) {
-        cache.spendings[year][month][DayKeys[o]].forEach(spending => {
-            if (answer[spending["category"]]) {
-                answer[spending["category"]] =+ spending["spend"]
-            } else
-            answer[spending["category"]] = spending["spend"]
-        })
-    }
-    return {"type": "month", "data": answer}
-}
-
-/**
- * @param {Date} date 
- */
-function getDaySpending(date) {
-    let answer = {}
+function getDaySpendings(date) {
+    let answer = []
 
     let year = date.getFullYear()
     let month = ("0" + (date.getMonth() + 1)).slice(-2)
     let day = ("0" + date.getDate()).slice(-2)
     if (!checkObject(year, month, day))
-        return {"type": "day", "data": answer}
+        return answer
     cache.spendings[year][month][day].forEach(spending => {
+        answer.push(spending)
+    })
+    return answer
+}
+
+/**
+ * @param {Date} from 
+ * @param {Date} to 
+ */
+function getSpendingsFromDates(from, to) {
+    let dates = getDaysBetween(from, to);
+    let spendings = []
+    dates.forEach(date => spendings = spendings.concat(getDaySpendings(date)))
+    let answer = {}
+    spendings.forEach(spending => {
         if (answer[spending["category"]]) {
-            answer[spending["category"]] =+ spending["spend"]
+            answer[spending["category"]] = answer[spending["category"]] + spending["spend"]
         } else
             answer[spending["category"]] = spending["spend"]
     })
-    return {"type": "day", "data": answer}
+    return answer
+}
+
+/**
+ * @param {Date} from 
+ * @param {Date} to 
+ * @returns {Array<Date>}
+ */
+function getDaysBetween(from, to) {
+    let dates = []
+    while (from.valueOf() <= to.valueOf()) {
+        dates.push(from)
+        from = new Date(from.valueOf() + (1000 * 60 * 60 * 24))
+    }
+    return dates;
 }
 
 /**
@@ -165,6 +123,7 @@ function addCategory(translations) {
     let uuid = uuidv4()
     while (cache.categorys.hasOwnProperty(uuid)) uuid = uuidv4()
     cache.categorys[uuid] = data;
+    saveCache()
 }
 
 function uuidv4() {
@@ -249,10 +208,8 @@ exports.saveCache = saveCache
 exports.getCategorys = getCategorys
 exports.resolveLanguageCode = resolveLanguageCode
 exports.addSpending = addSpending;
-exports.getTotalSpending = getTotalSpending
-exports.getYearSpending = getYearSpending
-exports.getMonthSpending = getMonthSpending
-exports.getDaySpending = getDaySpending,
+exports.getTotalSpending = getSpendingsFromDates(new Date(0), new Date())
 exports.addCategory = addCategory
 exports.removeCategory = removeCategory
 exports.updateCategory = updateCategory
+exports.getSpendingsFromDates = getSpendingsFromDates
