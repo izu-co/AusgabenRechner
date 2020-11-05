@@ -8,18 +8,21 @@ if (require('electron-squirrel-startup')) {
 }
 
 const createWindow = () => {
-  // Create the browser window.
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true
+      enableRemoteModule: true,
+      devTools: true
     },
     title: "Ausgabenrechner",
-    icon: path.join(__dirname, "ico.ico")
+    icon: path.join(__dirname, "ico.ico"),
+    
   });
-
+  if (mainWindow.maximizable)
+    mainWindow.maximize()
+  fileHandler.checkForUpdate()
   const menu = Menu.buildFromTemplate([
     {
       label: fileHandler.resolveLanguageCode("add", languageCode),
@@ -27,7 +30,13 @@ const createWindow = () => {
           {
             label:fileHandler.resolveLanguageCode("addSpending", languageCode),
             click: function (_, window, __) {
-              window.loadFile(path.join(__dirname, 'frontend', 'addSpending', 'index.html'))
+              window.loadFile(path.join(__dirname, 'frontend', 'addSpending', 'once', 'index.html'))
+            }
+          },
+          {
+            label:fileHandler.resolveLanguageCode("addReapeatSpending", languageCode),
+            click: function(_, window, _) {
+              window.loadFile(path.join(__dirname, 'frontend', 'addSpending', 'repeat', 'index.html'))
             }
           }
       ]
@@ -60,6 +69,7 @@ const createWindow = () => {
   mainWindow.setMenu(menu)
   mainWindow.loadFile(path.join(__dirname, 'frontend', 'index', 'index.html'));
   mainWindow.webContents.openDevTools();
+  fileHandler.autoSaveCache()
 };
 
 app.on('ready', createWindow);

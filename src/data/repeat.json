@@ -1,0 +1,12 @@
+{
+    "jobs": [
+        {
+            "category": "814f5a7e-9662-4b1c-ac18-1d690e718b21",
+            "amount": 50,
+            "every": 86400000,
+            "last": 1603231200000,
+            "title": "Test",
+            "description": ""
+        }
+    ]
+}

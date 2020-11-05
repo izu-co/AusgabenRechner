@@ -24,6 +24,33 @@ function removeCategory (category) {
     })
 }
 
+function addJob(type) {
+    
+}
+
+function checkForUpdate() {
+    let now = new Date(new Date().getFullYear(), new Date().getMonth(), new Date().getDate())
+    if (!cache.repeat.hasOwnProperty("jobs"))
+        cache.repeat["jobs"] = []
+    cache.repeat["jobs"].forEach(job => {
+        while (now >= new Date(job["last"] + job["every"])) {
+            let date = new Date(job["last"] + job["every"])
+            addSpending({
+                "date": {
+                    "year": date.getFullYear(),
+                    "month": date.getMonth()+1,
+                    "day": date.getDate()
+                },
+                "title": job["title"],
+                "description": job["description"],
+                "category": job["category"],
+                "spend": job["amount"]
+            })
+            job["last"] = date.valueOf()
+        }
+    })
+}
+
 function updateCategory (id, languageCode, value) {
     cache["categorys"][id][languageCode] = value
 }
@@ -43,7 +70,6 @@ function getCategorys (languageCode) {
 
 function addSpending(data) {
     let object = cache.spendings;
-    console.log(cache.spendings, data)
     if (!object.hasOwnProperty(data["date"]["year"])) 
         object[data["date"]["year"]] = {}
     if (!object[data["date"]["year"]].hasOwnProperty([data["date"]["month"]])) 
@@ -59,7 +85,6 @@ function addSpending(data) {
         "spend": parseFloat(data["spend"])
     })
     object[data["date"]["year"]][data["date"]["month"]][data["date"]["day"]] = day;
-    console.log(cache.spendings)
     saveCache()
 }
 
@@ -136,10 +161,13 @@ function uuidv4() {
 function readCache() {
     if (!fs.existsSync(path.join(__dirname, "../", "data", "spendings.json")))
         fs.writeFileSync(path.join(__dirname, "../", "data", "spendings.json"), "{}")
+    if (!fs.existsSync(path.join(__dirname, "../", "data", "repeat.json")))
+        fs.writeFileSync(path.join(__dirname, "../", "data", "repeat.json"), "{}")
     return {
         "language": JSON.parse(fs.readFileSync(path.join(__dirname, "../", "data", "language.json"))),
         "categorys": JSON.parse(fs.readFileSync(path.join(__dirname, "../", "data", "categorys.json"))),
-        "spendings": JSON.parse(fs.readFileSync(path.join(__dirname, "../", "data", "spendings.json")))
+        "spendings": JSON.parse(fs.readFileSync(path.join(__dirname, "../", "data", "spendings.json"))),
+        "repeat": JSON.parse(fs.readFileSync(path.join(__dirname, "../", "data", "repeat.json")))
     }
 }
 
@@ -154,6 +182,7 @@ function saveCache() {
     fs.writeFileSync(path.join(__dirname, "../", "data", "language.json"), JSON.stringify(cache.language, null, 4));
     fs.writeFileSync(path.join(__dirname, "../", "data", "categorys.json"), JSON.stringify(cache.categorys, null, 4));
     fs.writeFileSync(path.join(__dirname, "../", "data", "spendings.json"), JSON.stringify(cache.spendings, null, 4));
+    fs.writeFileSync(path.join(__dirname, "../", "data", "repeat.json"), JSON.stringify(cache.repeat, null, 4));
 }
 
 function checkObject(...args) {
@@ -168,23 +197,6 @@ function checkObject(...args) {
         }
     }
     return ok;
-}
-
-function getAllSpendings() {
-    let ret = []
-    let YearKeys = Object.keys(cache.spendings)
-    for (let i = 0; i < YearKeys.length; i++) {
-        let MonthKeys = Object.keys(cache.spendings[YearKeys[i]])
-        for (let a = 0; a < MonthKeys.length; a++) {
-            let DayKeys = Object.keys(cache.spendings[YearKeys[i]][MonthKeys[a]])
-            for (let o = 0; o < DayKeys.length; o++) {
-                cache.spendings[YearKeys[i]][MonthKeys[a]][DayKeys[o]].forEach(spending => {
-                    ret.push(spending)
-                })
-            }
-        } 
-    }
-    return ret;
 }
 
 function getAllSpendingsArray() {
@@ -213,3 +225,5 @@ exports.addCategory = addCategory
 exports.removeCategory = removeCategory
 exports.updateCategory = updateCategory
 exports.getSpendingsFromDates = getSpendingsFromDates
+exports.autoSaveCache = autoSave
+exports.checkForUpdate = checkForUpdate

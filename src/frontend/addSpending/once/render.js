@@ -7,6 +7,10 @@ const fileHandler = remote.require(path.join(remote.app.getAppPath(), "src", "ba
 
 document.getElementById("when").max = new Date().toISOString().split("T")[0]
 
+const head = document.getElementsByTagName("h1").item(0)
+if (head.className)
+    head.innerHTML = fileHandler.resolveLanguageCode(head.className, navigator.language)
+
 let categorysSelections = document.getElementsByClassName("categorySel");
 for (let i = 0; i < categorysSelections.length; i++) {
     let select = categorysSelections.item(i)

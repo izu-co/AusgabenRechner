@@ -9,11 +9,6 @@
     <div id="dataDiv">
       <canvas id="chart"></canvas>
       <div class="chooseArea">
-        <!--
-          <label for="lineChart" class="lineChart"></label>
-          <label for="pieChart" class="pieChart"></label>
-          <label for="lineChart" class="barChart"></label>
-        -->
         <label for="lineChart">
           <input type="radio" id="lineChart" name="chartType" value="line" class="line" checked>
           <svg viewBox="0 0 24 24">
@@ -33,7 +28,11 @@
           </svg>
         </label>
       </div>
-      <input type="date" id="datePicker">
+      <br>
+      <div class="dates">
+        <input type="date" id="fromDate" class="left">
+        <input type="date" id="toDate" class="right">
+      </div>
     </div>
   </body>
 </html>

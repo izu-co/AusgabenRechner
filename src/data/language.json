@@ -134,5 +134,13 @@
     "approveDelete": {
         "de": "Wirklich löschen?",
         "en": "Really delete?"
+    },
+    "addReapeatSpending": {
+        "de": "Wiederholende Ausgabe",
+        "en": "Repetitive spending"
+    },
+    "repeatIntervall": {
+        "de": "Wann soll die Ausgabe verarbeitet werden?",
+        "en": "When should the spending be calculated?"
     }
 }

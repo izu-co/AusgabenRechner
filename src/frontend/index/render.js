@@ -1,16 +1,16 @@
 const Chart = require("chart.js")
 const path = require("path")
-const { ipcRenderer, remote } = require('electron')
+const { remote } = require('electron')
 const fileHandler = remote.require(path.join(remote.app.getAppPath(), "src", "backend", "fileHandler.js"));
-const chartDataLabels = require("chartjs-plugin-datalabels")
+const chartDataLabels = require("chartjs-plugin-datalabels");
 
-const datePicker = document.getElementById("datePicker") 
-datePicker.valueAsDate = new Date();
+const toDate = document.getElementById("toDate") 
+const fromDate = document.getElementById("fromDate")
+
+fromDate.valueAsDate = new Date(0);
+toDate.valueAsDate = new Date();
 
 Chart.plugins.register(chartDataLabels)
-
-const max = 10
-let data = resolveData()
 
 let labelSelection = document.getElementsByTagName("label")
 for (let i = 0; i < labelSelection.length; i++) {
@@ -23,7 +23,7 @@ for (let i = 0; i < labelSelection.length; i++) {
 
 var ctx = document.getElementById('chart').getContext('2d');
 
-var myChart = new Chart(ctx, {
+const myChart = new Chart(ctx, {
     plugins: [chartDataLabels],
     type: 'line',
     options: {
@@ -52,12 +52,29 @@ var myChart = new Chart(ctx, {
                 }
             }]
         }        
-    },
-    active: -1
+    }
 });
 
+myChart.data = resolveData()
+myChart.update()
 
-changeActive(0)
+fromDate.addEventListener("change", () => {
+    if (new Date(fromDate.valueAsDate) > new Date(toDate.valueAsDate)) {
+        fromDate.valueAsDate = toDate.valueAsDate
+        return;
+    }
+    myChart.data = resolveData()
+    myChart.update()
+})
+
+toDate.addEventListener("change", () => {
+    if (new Date(fromDate.valueAsDate) > new Date(toDate.valueAsDate)) {
+        toDate.valueAsDate = fromDate.valueAsDate
+        return;
+    }
+    myChart.data = resolveData()
+    myChart.update()
+})
 
 function getRandomColor() {
     let colors = ["FF2D00", "FEFF00", "67FF00", "00FFB1", "0078FF", "0078FF",
@@ -116,18 +133,6 @@ function getFontSize() {
     return fontSize
 }
 
-function changeActive(newIndex) {
-    myChart.config.active = newIndex;
-    myChart.config.data = data[newIndex]
-    myChart.update()
-}
-
-datePicker.addEventListener("change", function() {
-    data = resolveData(new Date(datePicker.value))
-    changeActive(myChart.config.active)
-    myChart.update()
-})
-
 /**
  * 
  * @param {Array} arr 
@@ -150,45 +155,37 @@ function getRandom(arr, n) {
 
 /**
  * @param {Date} date
- * @returns {Array}
  */
-function resolveData(date) {
-    if (!date)
-        date = new Date()
-    let data = []
-    let items =  [fileHandler.getTotalSpending, fileHandler.getSpendingsFromDates(new Date(), new Date())];
-    console.log(fileHandler.getTotalSpending)
-    items.forEach(item => {
-        let keys = Object.keys(item)
-        let sort = []
-        for (let i = 0; i < keys.length; i++) {
-            sort.push({
-                "label": fileHandler.resolveCategory(keys[i], navigator.language),
-                "value": item[keys[i]]
-            })
-        }
+function resolveData() {
+    let item = fileHandler.getSpendingsFromDates(new Date(fromDate.valueAsDate), new Date(toDate.valueAsDate))
+    let keys = Object.keys(item)
+    let sort = []
+    for (let i = 0; i < keys.length; i++) {
+        sort.push({
+            "label": fileHandler.resolveCategory(keys[i], navigator.language),
+            "value": item[keys[i]]
+        })
+    }
         
-        sort.sort((a,b) => a.value - b.value)
-        let labels = []
-        let numbers = []
-        sort.forEach(item => {
-            labels.push(item.label)
-            numbers.push(item.value)
-        })
-
-        data.push({
-            labels: labels,
-            datasets: [{
-                data: numbers,
-                backgroundColor: getRandomColor(),
-                borderColor: [
-                    'rgba(255, 99, 132, 0.2)'
-                ],
-                pointBackgroundColor: "black",
-                borderWidth: 1,
-                barPercentage: 1
-            }]
-        })
+    sort.sort((a,b) => a.value - b.value)
+    let labels = []
+    let numbers = []
+    sort.forEach(item => {
+        labels.push(item.label)
+        numbers.push(item.value)
     })
-    return data;
+
+    return {
+        labels: labels,
+        datasets: [{
+            data: numbers,
+            backgroundColor: getRandomColor(),
+            borderColor: [
+                'rgba(255, 99, 132, 0.2)'
+            ],
+            pointBackgroundColor: "black",
+            borderWidth: 1,
+            barPercentage: 1
+        }]
+    };
 }
